@@ -16,6 +16,9 @@ import os
 import hashlib
 from datetime import datetime, timedelta
 import sys
+from dotenv import load_dotenv
+import os
+load_dotenv()
 
 # ──────────────────────────────────────────
 # ⚙️ 알림 시간 설정
@@ -46,8 +49,9 @@ def load_config() -> dict:
         sys.exit(1)
 
 CONFIG = load_config()
-TELEGRAM_BOT_TOKEN = CONFIG["telegram"]["bot_token"]
-TELEGRAM_CHAT_ID = CONFIG["telegram"]["chat_id"]
+
+TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
+TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
 SITES = [s for s in CONFIG["sites"] if s.get("enabled", True)]
 
 # ──────────────────────────────────────────
