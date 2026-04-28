@@ -23,7 +23,7 @@ load_dotenv()
 # ──────────────────────────────────────────
 # ⚙️ 알림 시간 설정
 # ──────────────────────────────────────────
-NO_POST_ALERT_SECONDS = 36
+NO_POST_ALERT_SECONDS = 3600
 CHECK_INTERVAL_SECONDS = 10
 TELEGRAM_RETRY_COUNT = 3  # 텔레그램 재시도 횟수
 TELEGRAM_RETRY_DELAY = 2  # 재시도 간격 (초)
@@ -234,9 +234,28 @@ def save_state(state: dict):
     with open(STATE_FILE, "w", encoding="utf-8") as f:
         json.dump(state, f, ensure_ascii=False, indent=2)
 
+def normalize_post_key(post: dict) -> str:
+    """
+    게시글 고유값 생성.
+    조회수/작성자/날짜가 바뀌어도 알림이 안 오게
+    가능하면 링크를 기준으로 판단하고,
+    링크가 없으면 제목 첫 줄만 사용.
+    """
+    link = post.get("link", "").strip()
+    title = post.get("title", "").strip()
+
+    if link:
+        return link
+
+    return title.splitlines()[0].strip()
+
+
 def posts_to_hash_set(posts: list[dict]) -> set[str]:
     """게시글 목록을 해시 집합으로 변환"""
-    return {hashlib.md5(p["title"].encode()).hexdigest() for p in posts}
+    return {
+        hashlib.md5(normalize_post_key(p).encode("utf-8")).hexdigest()
+        for p in posts
+    }
 
 # ──────────────────────────────────────────
 # 시간 변환 함수

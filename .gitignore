@@ -1,4 +1,8 @@
 echo .env>.gitignore
+echo sites_config.json>>.gitignore
 echo monitor_state.json>>.gitignore
+echo dist/>>.gitignore
+echo build/>>.gitignore
 echo __pycache__/>>.gitignore
 echo *.pyc>>.gitignore
+echo *.spec>>.gitignore
