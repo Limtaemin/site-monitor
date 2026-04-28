@@ -3,3 +3,4 @@ beautifulsoup4
 selenium
 flask
 gunicorn
+python-dotenv
