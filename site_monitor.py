@@ -317,7 +317,10 @@ def check_site(site: dict, state: dict, driver) -> dict:
     
     if new_hashes:
         # 새 글 발견!
-        new_posts = [p for p in posts if hashlib.md5(p["title"].encode()).hexdigest() in new_hashes]
+        new_posts = [
+            p for p in posts
+            if hashlib.md5(normalize_post_key(p).encode("utf-8")).hexdigest() in new_hashes
+        ]
         print(f"[{now()}] {name} — 새 글 {len(new_posts)}개 발견! 🎉")
 
         # 텔레그램 메시지
