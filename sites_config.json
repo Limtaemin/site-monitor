@@ -1,8 +1,8 @@
 {
-  "telegram": {
-    "bot_token": "8329873618:AAEwkyoYYE_2TJ4sCS9T2jxk1C5T1EYwDI0",
-    "chat_id": "7659807850"
-  },
+      "telegram": {
+      "bot_token": "...",
+      "chat_id": "..."
+    },
   "sites": [
     {
       "name": "부산대 기계공학부 공지",
