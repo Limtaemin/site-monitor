@@ -398,20 +398,20 @@ def main():
     print()
 
     # 텔레그램 연결 테스트
-    site_list = "\n".join(f"• {s['name']} ({s['interval_minutes']}분마다)" for s in SITES)
-    test_msg = (
-        f"✅ 모니터링 시작!\n\n"
-        f"⚙️ 설정:\n"
-        f"• 무글 알림: {alert_time_str}\n"
-        f"• 체크 간격: {CHECK_INTERVAL_SECONDS}초\n\n"
-        f"📋 모니터링 사이트:\n{site_list}"
-    )
-    
-    if send_telegram(test_msg):
-        print("[✓] 텔레그램 연결 성공!\n")
-    else:
-        print("[⚠] 텔레그램 연결 실패 (재시도 중...)\n")
+    if os.getenv("SEND_STARTUP_ALERT", "false").lower() == "true":
+        site_list = "\n".join(f"• {s['name']} ({s['interval_minutes']}분마다)" for s in SITES)
+        test_msg = (
+            f"✅ 모니터링 시작!\n\n"
+            f"⚙️ 설정:\n"
+            f"• 무글 알림: {alert_time_str}\n"
+            f"• 체크 간격: {CHECK_INTERVAL_SECONDS}초\n\n"
+            f"📋 모니터링 사이트:\n{site_list}"
+        )
 
+        if send_telegram(test_msg):
+            print("[✓] 텔레그램 연결 성공!\n")
+        else:
+            print("[⚠] 텔레그램 연결 실패\n")
     # Selenium 드라이버 생성
     driver = create_driver()
     
