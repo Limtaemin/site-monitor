@@ -1,8 +1,4 @@
 {
-      "telegram": {
-      "bot_token": "...",
-      "chat_id": "..."
-    },
   "sites": [
     {
       "name": "부산대 기계공학부 공지",
